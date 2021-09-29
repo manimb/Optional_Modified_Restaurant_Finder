@@ -18,11 +18,15 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        // Checks if the user checking time falls in between the restaurant open and close times
+        // Checks if the user checking time falls in restaurant open times range
         // and returns a boolean
         if (getCurrentTime().isAfter(this.openingTime) && getCurrentTime().isBefore(this.closingTime))
             return true;
-        else
+        else if (getCurrentTime().equals(this.openingTime))
+            return true;
+        else if (getCurrentTime().isBefore(this.openingTime) || getCurrentTime().isAfter(this.closingTime))
+            return false;
+        else // this will take care of the condition  (getCurrentTime().equals(this.closingTime))
             return false;
         //DELETE ABOVE STATEMENT AND WRITE CODE HERE
     }

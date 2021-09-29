@@ -28,29 +28,49 @@ class RestaurantTest {
     }
     //REFACTOR ALL THE REPEATED LINES OF CODE
 
-
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
 
-    // Test if the method isRestaurantOpen() returns true if the current time is between the opening and closing time.
+    // Test if the method isRestaurantOpen() returns true for the simulated current time
+    // in the range of the restaurant open times.
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
         Restaurant spyRestaurant = Mockito.spy(restaurant);
-        //Mock getCurrentTime to return time between opening and closing time.
-        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T00:00:00.00"));
-        // spyRestaurant.isRestaurantOpen() returns true in this case
+
+        //Mock getCurrentTime to return restaurant open times for unit testing.
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-27T22:00:00.00"));
         assertTrue(spyRestaurant.isRestaurantOpen());
+
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-27T22:00:01.0"));
+        assertTrue(spyRestaurant.isRestaurantOpen());
+
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T04:59:59.00"));
+        assertTrue(spyRestaurant.isRestaurantOpen());
+
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T00:00:00.00"));
+        assertTrue(spyRestaurant.isRestaurantOpen());
+        // spyRestaurant.isRestaurantOpen() returns true in this case
         //WRITE UNIT TEST CASE HERE
     }
 
-    // Test if the method isRestaurantOpen() returns false if the current time is outside the opening and closing time.
+    // Test if the method isRestaurantOpen() returns false for the simulated current time
+    // in the range of restaurant closed times.
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time(){
         Restaurant spyRestaurant = Mockito.spy(restaurant);
-        //Mock getCurrentTime to return time outside opening and closing time.
-        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T09:30:00.00"));
-        // spyRestaurant.isRestaurantOpen() returns false in this case
+        //Mock getCurrentTime to return restaurant closed times for unit testing.
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-27T21:59:59.00"));
         assertFalse(spyRestaurant.isRestaurantOpen());
+
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T05:00:00.00"));
+        assertFalse(spyRestaurant.isRestaurantOpen());
+
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T05:00:01.00"));
+        assertFalse(spyRestaurant.isRestaurantOpen());
+
+        Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(LocalDateTime.parse("2021-09-28T05:30:00.00"));
+        assertFalse(spyRestaurant.isRestaurantOpen());
+        // spyRestaurant.isRestaurantOpen() returns false in this case
         //WRITE UNIT TEST CASE HERE
 
     }
